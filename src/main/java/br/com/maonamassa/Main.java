@@ -8,6 +8,7 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
+import java.time.format.TextStyle;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -79,7 +80,12 @@ public class Main {
     }
 
     private static void imprimirAniversariantes(List<Funcionario> funcionarios, Month... meses) {
-        System.out.println("\n----------------------------------------------\nAniversariantes de " + Arrays.toString(meses) + ":");
+        String mesesFormatados = Arrays.stream(meses)
+                .map(m -> m.getDisplayName(TextStyle.FULL, Locale.of("pt", "BR")))
+                .collect(Collectors.joining(" e "));
+
+        System.out.println("\n----------------------------------------------\nAniversariantes de " + mesesFormatados + ":");
+
         funcionarios.stream()
                 .filter(f -> Arrays.asList(meses).contains(f.getDataNascimento().getMonth()))
                 .forEach(System.out::println);
